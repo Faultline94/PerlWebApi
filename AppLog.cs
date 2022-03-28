@@ -8,7 +8,8 @@ namespace PerlWebApi
 
     }
 
-    public sealed class AppLog
-    {
-    }
+	public sealed class AppLog
+	{
+		public static object Instance { get; internal set; }
+	}
 }

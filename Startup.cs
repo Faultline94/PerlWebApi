@@ -31,6 +31,7 @@ namespace PerlWebApi
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        //Basically works similar to how we setup the connection to the database. We also connect up to swagger here.
         public void ConfigureServices(IServiceCollection services)
         {
             //Add the DbContext to the services
@@ -47,7 +48,7 @@ namespace PerlWebApi
 
 
             //Dependency Injection for the controller class constructors
-            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<INecklaceRepository, NecklaceRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,7 +57,7 @@ namespace PerlWebApi
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DbWebApi v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DbWebApi v1"); //I am uncertain what I can change this to atm, we will need to get back to this part when we have assembled the project more.
                 c.SupportedSubmitMethods(new[] {
                         SubmitMethod.Get, SubmitMethod.Put, SubmitMethod.Delete, SubmitMethod.Post});
             });
