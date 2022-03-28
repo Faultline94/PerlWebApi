@@ -10,4 +10,13 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="DbCRUDRepos">
+      <HintPath>..\..\..\Desktop\PearlPublish\DbCRUDRepos.dll</HintPath>
+    </Reference>
+    <Reference Include="PearlNecklace">
+      <HintPath>..\..\..\Desktop\PearlPublish\PearlNecklace.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
