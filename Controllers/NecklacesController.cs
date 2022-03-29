@@ -25,12 +25,12 @@ namespace PerlWebApi.Controllers
         {
             if (string.IsNullOrWhiteSpace(neckId))
             {
-                var neck = await _repo.ReadAllAsync();
+                var neck = await _repo.ReadAllAsyncWithPearls();
                 return neck;
             }
             else
             {
-                var list = await _repo.ReadAllAsync();
+                var list = await _repo.ReadAllAsyncWithPearls();
                 return list.Where(neck => neck.NecklaceID.ToString() == neckId);
             }
         }
