@@ -14,37 +14,30 @@ namespace PerlWebApi.Controllers
     [ApiController]
     public class NecklacesController : ControllerBase
     {
-        private NecklaceRepository _repo;
+        private INecklaceRepository _repo;
 
+        //GET: api/customers
+        //GET: api/customers/?country={country}
+        //Below are good practice decorators to use for a GET request
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Necklace>))]
-
-        public async Task<IEnumerable<Necklace>> GetNecklaces()
+        public async Task<IEnumerable<Necklace>> GetNecklaces(string neckId)
         {
-            var neck = await _repo.ReadAllAsync();
-            return neck;
-        }
-
-        [HttpGet("{necklaceId}", Name = nameof(GetNecklace))]
-        [ProducesResponseType(200, Type = typeof(Necklace))]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
-        public async Task<IActionResult> GetNecklace(string necklaceId)
-        {
-            if (int.TryParse(necklaceId, out int neckVar))
+            if (string.IsNullOrWhiteSpace(neckId))
             {
-                return BadRequest("Guid format error");
-            }
-            Necklace neck = await _repo.ReadAsync(neckVar);
-            if (neck != null)
-            {
-                //cust is returned in the body
-                return Ok(neck);
+                var neck = await _repo.ReadAllAsync();
+                return neck;
             }
             else
             {
-                return NotFound();
+                var list = await _repo.ReadAllAsync();
+                return list.Where(neck => neck.NecklaceID.ToString() == neckId);
             }
+        }
+        public NecklacesController(INecklaceRepository repo, ILogger<NecklacesController> logger)
+        {
+            _repo = repo;
+            AppLog.Instance.LogInformation("Controller started");
         }
     }
 }
