@@ -12,16 +12,18 @@ namespace PerlWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class NecklacesController : ControllerBase
+    public class NecklaceController : ControllerBase
     {
         private INecklaceRepository _repo;
 
         //GET: api/customers
         //GET: api/customers/?country={country}
         //Below are good practice decorators to use for a GET request
-        [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Necklace>))]
-        public async Task<IEnumerable<Necklace>> GetNecklaces(string neckId)
+        [HttpGet("{custId}", Name = nameof(GetNecklace))]
+        [ProducesResponseType(200, Type = typeof(Necklace))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IEnumerable<Necklace>> GetNecklace(string neckId)
         {
             if (string.IsNullOrWhiteSpace(neckId))
             {
@@ -34,7 +36,16 @@ namespace PerlWebApi.Controllers
                 return list.Where(neck => neck.NecklaceID.ToString() == neckId);
             }
         }
-        public NecklacesController(INecklaceRepository repo, ILogger<NecklacesController> logger)
+
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Necklace>))]
+        public async Task<IEnumerable<Necklace>> GetAllNecklaces()
+        {
+                var neck = await _repo.ReadAllAsyncWithPearls();
+                return neck;
+        }
+
+        public NecklaceController(INecklaceRepository repo, ILogger<NecklaceController> logger)
         {
             _repo = repo;
             AppLog.Instance.LogInformation("Controller started");
