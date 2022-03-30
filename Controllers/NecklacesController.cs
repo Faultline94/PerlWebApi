@@ -34,7 +34,7 @@ namespace PerlWebApi.Controllers
             else
             {
                 var neck = await _repo.ReadAllAsync();
-                neck = neck.Where(necklace => necklace.Country == neckParam);
+                //neck = neck.Where(necklace => necklace.Country == neckParam);
 
                 _logger.LogInformation("GetCustomers returned {count} customers in country {country}", neck.Count(), neckParam);
                 return neck;
@@ -64,6 +64,7 @@ namespace PerlWebApi.Controllers
 
         //POST: api/customers
         //Body: Customer in Json
+        //Note: ID has to be zero for necklace, auto creates correct ID
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -72,11 +73,11 @@ namespace PerlWebApi.Controllers
         {
             if (neck == null)
             {
-                return BadRequest("No Customer");
+                return BadRequest("No Mecklace");
             }
             if (await _repo.ReadAsync(neck.NecklaceID) != null)
             {
-                return BadRequest("Customer ID already existing");
+                return BadRequest("Necklace ID already existing");
             }
 
             neck = await _repo.CreateAsync(neck);
@@ -96,7 +97,7 @@ namespace PerlWebApi.Controllers
             }
             else
             {
-                return BadRequest("Could not create Customer");
+                return BadRequest("Could not create Necklace");
             }
         }
         public NecklacesController(INecklaceRepository repo, ILogger<NecklacesController> logger)
