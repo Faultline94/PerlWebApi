@@ -73,7 +73,7 @@ namespace PerlWebApi.Controllers
         {
             if (neck == null)
             {
-                return BadRequest("No Mecklace");
+                return BadRequest("No Necklace");
             }
             if (await _repo.ReadAsync(neck.NecklaceID) != null)
             {
