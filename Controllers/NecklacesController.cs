@@ -34,7 +34,7 @@ namespace PerlWebApi.Controllers
             else
             {
                 var neck = await _repo.ReadAllAsync();
-                neck = neck.Where(cust => cust.Country == neckParam);
+                neck = neck.Where(necklace => necklace.Country == neckParam);
 
                 _logger.LogInformation("GetCustomers returned {count} customers in country {country}", neck.Count(), neckParam);
                 return neck;
