@@ -17,18 +17,18 @@ namespace PerlWebApi.Controllers
         private INecklaceRepository _repo;
         private ILogger<NecklacesController> _logger;
 
-        //GET: api/customers/?country={country}
+        //GET: api/necklaces/
         //Below are good practice decorators to use for a GET request
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Necklace>))]
         public async Task<IEnumerable<Necklace>> GetNecklaces(string neckParam)
         {
-            _logger.LogInformation("GetCustomers initiated");
+            _logger.LogInformation("GetNecklaces initiated");
             if (string.IsNullOrWhiteSpace(neckParam))
             {
                 var neck = await _repo.ReadAllAsync();
 
-                _logger.LogInformation("GetCustomers returned {count} customers", neck.Count());
+                _logger.LogInformation("GetNecklaces returned {count} necklaces", neck.Count());
                 return neck;
             }
             else
@@ -36,13 +36,13 @@ namespace PerlWebApi.Controllers
                 var neck = await _repo.ReadAllAsync();
                 //neck = neck.Where(necklace => necklace.Country == neckParam);
 
-                _logger.LogInformation("GetCustomers returned {count} customers in country {country}", neck.Count(), neckParam);
+                _logger.LogInformation("GetNecklaces returned {count} necklaces in ...", neck.Count(), neckParam);
                 return neck;
             }
         }
 
-        //GET: api/customers/id
-        [HttpGet("{custId}", Name = nameof(GetNecklace))]
+        //GET: api/necklaces/id
+        [HttpGet("{neckId}", Name = nameof(GetNecklace))]
         [ProducesResponseType(200, Type = typeof(Necklace))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -61,7 +61,7 @@ namespace PerlWebApi.Controllers
             }
         }
 
-        //Body: Customer in Json
+        //Body: Necklaces in Json
         [HttpPut("{neckIdString}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -90,7 +90,7 @@ namespace PerlWebApi.Controllers
             }
         }
 
-        //DELETE: api/customers/id
+        //DELETE: api/necklaces/id
         [HttpDelete("{neckIdString}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -124,8 +124,8 @@ namespace PerlWebApi.Controllers
         }
 
 
-        //POST: api/customers
-        //Body: Customer in Json
+        //POST: api/neklaces
+        //Body: Necklaces in Json
         //Note: ID has to be zero for necklace, auto creates correct ID
         [HttpPost]
         [ProducesResponseType(201)]
@@ -145,16 +145,16 @@ namespace PerlWebApi.Controllers
             neck = await _repo.CreateAsync(neck);
             if (neck != null)
             {
-                //201 created ok with url details to read newlys created customer
+                //201 created ok with url details to read newlys created necklace
                 return CreatedAtRoute(
 
                     //Named Route in the HttpGet request
                     routeName: nameof(GetNecklace),
 
-                    //custId is the parameter in HttpGet
-                    routeValues: new { custId = neck.NecklaceID.ToString().ToLower() },
+                    //neckId is the parameter in HttpGet
+                    routeValues: new { neckId = neck.NecklaceID.ToString().ToLower() },
 
-                    //Customer detail in the Body
+                    //Necklace detail in the Body
                     value: neck);
             }
             else
