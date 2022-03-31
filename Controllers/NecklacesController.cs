@@ -62,6 +62,7 @@ namespace PerlWebApi.Controllers
         }
 
         //Body: Necklaces in Json
+        //Note: Input ID has to be same as Changed ID
         [HttpPut("{neckIdString}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]

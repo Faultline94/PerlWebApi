@@ -27,10 +27,10 @@
 
   <ItemGroup>
     <Reference Include="DbCRUDRepos">
-      <HintPath>..\..\Perl NY Published\DbCRUDRepos.dll</HintPath>
+      <HintPath>..\..\..\Desktop\PearlPublishTwo\DbCRUDRepos.dll</HintPath>
     </Reference>
     <Reference Include="PearlNecklace">
-      <HintPath>..\..\Perl NY Published\PearlNecklace.dll</HintPath>
+      <HintPath>..\..\..\Desktop\PearlPublishTwo\PearlNecklace.dll</HintPath>
     </Reference>
   </ItemGroup>
 
