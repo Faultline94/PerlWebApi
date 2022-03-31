@@ -23,12 +23,12 @@ namespace PerlWebApi.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Necklace>))]
         public async Task<IEnumerable<Necklace>> GetNecklaces(string neckParam)
         {
-            _logger.LogInformation("GetNecklaces initiated");
+           // _logger.LogInformation("GetNecklaces initiated");
             if (string.IsNullOrWhiteSpace(neckParam))
             {
                 var neck = await _repo.ReadAllAsync();
 
-                _logger.LogInformation("GetNecklaces returned {count} necklaces", neck.Count());
+                //_logger.LogInformation("GetNecklaces returned {count} necklaces", neck.Count());
                 return neck;
             }
             else
@@ -36,7 +36,7 @@ namespace PerlWebApi.Controllers
                 var neck = await _repo.ReadAllAsync();
                 //neck = neck.Where(necklace => necklace.Country == neckParam);
 
-                _logger.LogInformation("GetNecklaces returned {count} necklaces in ...", neck.Count(), neckParam);
+                //_logger.LogInformation("GetNecklaces returned {count} necklaces in ...", neck.Count(), neckParam);
                 return neck;
             }
         }
