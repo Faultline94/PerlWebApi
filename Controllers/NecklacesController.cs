@@ -60,6 +60,36 @@ namespace PerlWebApi.Controllers
                 return list.Where(neck => neck.NecklaceID.ToString() == neckId);
             }
         }
+
+        //Body: Customer in Json
+        [HttpPut("{neckIdString}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> UpdateNecklace(string neckIdString, [FromBody] Necklace neck)
+        {
+            if (!int.TryParse(neckIdString, out int neckId))
+            {
+                return BadRequest("Guid format error");
+            }
+            if (neckId != neck.NecklaceID)
+            {
+                return BadRequest("Necklace ID mismatch");
+            }
+
+            neck = await _repo.UpdateAsync(neck);
+            if (neck != null)
+            {
+                //_logger.LogInformation("Updated necklace {neckIdString}", neckIdString);
+                //Send an empty body response to confirm
+                return new NoContentResult();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         //DELETE: api/customers/id
         [HttpDelete("{neckIdString}")]
         [ProducesResponseType(204)]
@@ -82,14 +112,14 @@ namespace PerlWebApi.Controllers
             neck = await _repo.DeleteAsync(neckId);
             if (neck != null)
             {
-                //_logger.LogInformation("Deleted necklace {neckId}", neckId);
+                //_logger.LogInformation("Deleted necklace {neckIdString}", neckId);
 
                 //Send an empty body response to confirm
                 return new NoContentResult();
             }
             else
             {
-                return BadRequest("Customer found but could not be deleted");
+                return BadRequest("Necklace found but could not be deleted");
             }
         }
 
