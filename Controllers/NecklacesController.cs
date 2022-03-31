@@ -21,24 +21,10 @@ namespace PerlWebApi.Controllers
         //Below are good practice decorators to use for a GET request
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Necklace>))]
-        public async Task<IEnumerable<Necklace>> GetNecklaces(string neckParam)
+        public async Task<IEnumerable<Necklace>> GetNecklaces()
         {
-           // _logger.LogInformation("GetNecklaces initiated");
-            if (string.IsNullOrWhiteSpace(neckParam))
-            {
                 var neck = await _repo.ReadAllAsync();
-
-                //_logger.LogInformation("GetNecklaces returned {count} necklaces", neck.Count());
                 return neck;
-            }
-            else
-            {
-                var neck = await _repo.ReadAllAsync();
-                //neck = neck.Where(necklace => necklace.Country == neckParam);
-
-                //_logger.LogInformation("GetNecklaces returned {count} necklaces in ...", neck.Count(), neckParam);
-                return neck;
-            }
         }
 
         //GET: api/necklaces/id
