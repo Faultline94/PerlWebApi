@@ -60,6 +60,38 @@ namespace PerlWebApi.Controllers
                 return list.Where(neck => neck.NecklaceID.ToString() == neckId);
             }
         }
+        //DELETE: api/customers/id
+        [HttpDelete("{neckIdString}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> DeleteNecklace(string neckIdString)
+        {
+
+            if (!int.TryParse(neckIdString, out int neckId))
+            {
+                return BadRequest("Guid format error");
+            }
+
+            Necklace neck = await _repo.ReadAsync(neckId);
+            if (neck == null)
+            {
+                return NotFound();
+            }
+
+            neck = await _repo.DeleteAsync(neckId);
+            if (neck != null)
+            {
+                //_logger.LogInformation("Deleted necklace {neckId}", neckId);
+
+                //Send an empty body response to confirm
+                return new NoContentResult();
+            }
+            else
+            {
+                return BadRequest("Customer found but could not be deleted");
+            }
+        }
 
 
         //POST: api/customers
