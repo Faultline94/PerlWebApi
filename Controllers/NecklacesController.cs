@@ -33,17 +33,20 @@ namespace PerlWebApi.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
 
-        public async Task<IEnumerable<Necklace>> GetNecklace(string neckId)
+        public async Task<IActionResult> GetNecklace(string neckId)
         {
-            if (string.IsNullOrWhiteSpace(neckId))
+            if (!int.TryParse(neckId, out int necklaceId))
             {
-                var neck = await _repo.ReadAllAsyncWithPearls();
-                return neck;
+                return BadRequest("ID format error");
+            }
+            var neck = await _repo.ReadAsync(necklaceId);
+            if (neck != null)
+            {
+                return Ok(neck);
             }
             else
             {
-                var list = await _repo.ReadAllAsyncWithPearls();
-                return list.Where(neck => neck.NecklaceID.ToString() == neckId);
+                return NotFound();
             }
         }
 
@@ -57,7 +60,7 @@ namespace PerlWebApi.Controllers
         {
             if (!int.TryParse(neckIdString, out int neckId))
             {
-                return BadRequest("Guid format error");
+                return BadRequest("ID format error");
             }
             if (neckId != neck.NecklaceID)
             {
@@ -87,7 +90,7 @@ namespace PerlWebApi.Controllers
 
             if (!int.TryParse(neckIdString, out int neckId))
             {
-                return BadRequest("Guid format error");
+                return BadRequest("Id format error");
             }
 
             Necklace neck = await _repo.ReadAsync(neckId);
@@ -126,7 +129,7 @@ namespace PerlWebApi.Controllers
             }
             if (await _repo.ReadAsync(neck.NecklaceID) != null)
             {
-                return BadRequest("Necklace ID already existing");
+                return BadRequest("Necklace ID already exists");
             }
 
             neck = await _repo.CreateAsync(neck);
