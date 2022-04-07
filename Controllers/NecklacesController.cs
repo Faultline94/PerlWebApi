@@ -67,7 +67,7 @@ namespace PerlWebApi.Controllers
                 return BadRequest("Necklace ID mismatch");
             }
 
-            neck = await _repo.UpdateAsync(neck);
+            await _repo.UpdateAsync(neck);
             if (neck != null)
             {
                 //_logger.LogInformation("Updated necklace {neckIdString}", neckIdString);
