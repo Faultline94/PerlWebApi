@@ -23,8 +23,8 @@ namespace PerlWebApi.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Necklace>))]
         public async Task<IEnumerable<Necklace>> GetNecklaces()
         {
-                var neck = await _repo.ReadAllAsyncWithPearls();
-                return neck;
+            var neck = await _repo.ReadAllAsyncWithPearls();
+            return neck;
         }
 
         //GET: api/necklaces/id

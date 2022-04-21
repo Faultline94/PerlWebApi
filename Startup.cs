@@ -57,6 +57,10 @@ namespace PerlWebApi
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
+                c.ConfigObject.AdditionalItems["syntaxHighlight"] = new Dictionary<string, object> //Making sure it doesnt freeze when loading alot of data
+                {
+                    ["activated"] = false
+                };
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "DbWebApi v1"); //I am uncertain what I can change this to atm, we will need to get back to this part when we have assembled the project more.
                 c.SupportedSubmitMethods(new[] {
                         SubmitMethod.Get, SubmitMethod.Put, SubmitMethod.Delete, SubmitMethod.Post});
